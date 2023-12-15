@@ -1,0 +1,199 @@
+命令行模式转换：
+<HUAWEI>system-view immediately 
+Enter system view, return user view with return command.
+[HUAWEI]
+
+获取配置：
+<HUAWEI>display current-configuration 
+!Software Version V200R005C10SPC607B607
+!Last configuration was updated at 2023-12-11 06:42:40+00:00
+#
+sysname HUAWEI
+#
+device board 17 board-type CE-MPUB
+device board 1 board-type CE-LPUE
+#
+aaa
+ #
+ authentication-scheme default
+ #
+ authorization-scheme default
+ #
+ accounting-scheme default
+ #
+ domain default
+ #
+ domain default_admin
+#
+interface MEth0/0/0
+ undo shutdown
+#
+interface GE1/0/0
+ shutdown
+#
+interface GE1/0/1
+ undo portswitch
+ undo shutdown
+#
+interface GE1/0/2
+ shutdown
+#
+interface GE1/0/3
+ shutdown
+#
+interface GE1/0/4
+ shutdown
+#
+interface GE1/0/5
+ shutdown
+#
+interface GE1/0/6
+ shutdown
+#
+interface GE1/0/7
+ shutdown       
+#
+interface GE1/0/8
+ shutdown
+#
+interface GE1/0/9
+ shutdown
+#
+interface NULL0
+#
+ssh authorization-type default aaa
+#
+ssh server cipher aes256_gcm aes128_gcm aes256_ctr aes192_ctr aes128_ctr aes256_cbc aes128_cbc 3des_cbc
+#
+ssh server dh-exchange min-len 1024
+#
+ssh client cipher aes256_gcm aes128_gcm aes256_ctr aes192_ctr aes128_ctr aes256_cbc aes128_cbc 3des_cbc
+#
+user-interface con 0
+#
+vm-manager
+#
+return
+<HUAWEI>  
+
+
+获取接口摘要
+<HUAWEI>display interface brief 
+PHY: Physical
+*down: administratively down
+^down: standby
+(l): loopback
+(s): spoofing
+(b): BFD down
+(e): ETHOAM down
+(d): Dampening Suppressed
+(p): port alarm down
+(dl): DLDP down
+(c): CFM down
+InUti/OutUti: input utility rate/output utility rate
+Interface                  PHY      Protocol  InUti OutUti   inErrors  outErrors
+GE1/0/0                    *down    down         0%     0%          0          0
+GE1/0/1                    up       down         0%     0%          0          0
+GE1/0/2                    *down    down         0%     0%          0          0
+GE1/0/3                    *down    down         0%     0%          0          0
+GE1/0/4                    *down    down         0%     0%          0          0
+GE1/0/5                    *down    down         0%     0%          0          0
+GE1/0/6                    *down    down         0%     0%          0          0
+GE1/0/7                    *down    down         0%     0%          0          0
+GE1/0/8                    *down    down         0%     0%          0          0
+GE1/0/9                    *down    down         0%     0%          0          0
+MEth0/0/0                  up       down         0%     0%          0          0
+NULL0                      up       up(s)        0%     0%          0          0
+
+<HUAWEI>display ip interface brief 
+*down: administratively down
+!down: FIB overload down
+^down: standby
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+The number of interface that is UP in Physical is 3
+The number of interface that is DOWN in Physical is 0
+The number of interface that is UP in Protocol is 1
+The number of interface that is DOWN in Protocol is 2
+Interface                   IP Address/Mask    Physical Protocol VPN           
+GE1/0/1                     unassigned         up       down     --            
+MEth0/0/0                   unassigned         up       down     --            
+NULL0                       unassigned         up       up(s)    --            
+<HUAWEI>
+
+
+获取路由表：
+<HUAWEI>display ip routing-table 
+Proto: Protocol        Pre: Preference
+Route Flags: R - relay, D - download to fib, T - to vpn-instance, B - black hole route
+------------------------------------------------------------------------------
+Routing Table : _public_
+         Destinations : 4        Routes : 4         
+
+Destination/Mask    Proto   Pre  Cost        Flags NextHop         Interface
+
+      127.0.0.0/8   Direct  0    0             D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0             D   127.0.0.1       InLoopBack0
+127.255.255.255/32  Direct  0    0             D   127.0.0.1       InLoopBack0
+255.255.255.255/32  Direct  0    0             D   127.0.0.1       InLoopBack0
+<HUAWEI> 
+
+获取CPU信息：
+<HUAWEI>display cpu
+CPU utilization statistics at 2023-12-11 07:42:18 942 ms
+System CPU Using Percentage :   2%
+CPU utilization for five seconds: 0%, one minute: 0%, five minutes: 0%.
+Max CPU Usage :                45%
+Max CPU Usage Stat. Time : 2023-12-11 06:17:53 675 ms
+State: Non-overload
+Overload threshold:  90%, Overload clear threshold:  75%, Duration:  480s
+---------------------------
+ServiceName  UseRate   
+---------------------------
+SYSTEM            2%
+AAA               0%
+ARP               0%
+CMF               0%
+DEVICE            0%
+EUM               0%
+FEA               0%
+FEC               0%
+FIBRESM           0%
+IFM               0%
+IP STACK          0%
+LOCAL PKT         0%
+MSTP              0%
+ND                0%
+OAM               0%
+PNP               0%
+RGM               0%
+RM                0%
+SLA               0%
+SMLK              0%
+SVRO              0%
+TNLM              0%
+TUNNEL            0%
+VLAN              0%
+---------------------------
+CPU Usage Details
+----------------------------------------------------------------
+CPU     Current  FiveSec   OneMin  FiveMin  Max MaxTime         
+----------------------------------------------------------------
+cpu0         4%       0%       0%       0%   0% 2023-12-11 06:16:30
+cpu1         1%       0%       0%       0%   0% 2023-12-11 06:16:30
+----------------------------------------------------------------
+<HUAWEI>
+
+
+配置接口：
+[HUAWEI]interface GE1/0/2
+[HUAWEI-GE1/0/2]undo portswitch
+[HUAWEI-GE1/0/2]ip address 1.1.1.1 24
+[HUAWEI-GE1/0/2]undo shutdown
+[HUAWEI-GE1/0/2]quit
+[HUAWEI]
+
+配置静态路由：
+[HUAWEI]ip route-static 10.0.0.0 24 192.168.1.101
+[HUAWEI]
